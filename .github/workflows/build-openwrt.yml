@@ -1,31 +1,28 @@
-#=================================================
+#
+# Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
+#
+# This is free software, licensed under the MIT License.
+# See /LICENSE for more information.
+#
 # https://github.com/P3TERX/Actions-OpenWrt
 # Description: Build OpenWrt using GitHub Actions
-# Lisence: MIT
-# Author: P3TERX
-# Blog: https://p3terx.com
-#=================================================
-
-name: OpenWrt-x86-Lienol
+#
+name: jlyss
 
 on:
-# release:
-#   types: published
-# push:
-#   branches:
-#     - master
-#   paths:
-#     - 'Lienol'
-   schedule:
-     - cron: 0 20 * * *
-   watch:
-     types: started
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
   
 env:
   REPO_URL: https://github.com/Lienol/openwrt
   REPO_BRANCH: 19.07
   CONFIG_FILE: config-x86-Lienol
-  DIY_SH: diy-x86-Lienol.sh
+  DIY_SH: diy-part2.sh
   SSH_ACTIONS: false
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
