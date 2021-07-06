@@ -21,8 +21,7 @@ on:
 env:
   REPO_URL: https://github.com/Lienol/openwrt
   REPO_BRANCH: 19.07
-  CONFIG_FILE: config-x86-Lienol
-  DIY_SH: diy-part2.sh
+  CONFIG_FILE: .config
   SSH_ACTIONS: false
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
@@ -53,14 +52,10 @@ jobs:
 
     - name: 导入自定义
       run: |
-        git clone https://github.com/sypopo/diy ./openwrt/diy/sypopo
-        mv ./openwrt/diy/sypopo/$CONFIG_FILE $(pwd)
-        mv ./openwrt/diy/sypopo/$DIY_SH $(pwd)
-        df -h && pwd
-        [ -e files ] && mv files openwrt/files
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x $DIY_SH && cd openwrt && ../$DIY_SH
-
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        chmod +x $DIY_P1_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P1_SH
     - name: SSH连接
       uses: sypopo/debugger-action@master
       if: env.SSH_ACTIONS == 'true'
